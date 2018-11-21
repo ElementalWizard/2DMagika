@@ -9,6 +9,7 @@ import Inputs.MouseManager;
 import Resources.GameCamera;
 import Resources.Images;
 import Display.DisplayScreen;
+import Resources.MusicHandler;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
@@ -43,6 +44,9 @@ public class Game implements Runnable {
     private KeyManager keyManager;
     private MouseManager mouseManager;
 
+    private MusicHandler musicHandler;
+
+
     //Camera
     private GameCamera gameCamera;
 
@@ -65,6 +69,7 @@ public class Game implements Runnable {
         this.title = title;
         keyManager = new KeyManager();
         mouseManager = new MouseManager();
+        musicHandler = new MusicHandler(handler);
 
         try {
             loading = ImageIO.read(getClass().getResourceAsStream("/Sheets/loading.png"));
@@ -93,22 +98,11 @@ public class Game implements Runnable {
 
         State.setState(menuState);
 
-        try {
-            audioFile = new File("res/music/nature.wav");
-            audioStream = AudioSystem.getAudioInputStream(audioFile);
-            format = audioStream.getFormat();
-            info = new DataLine.Info(Clip.class, format);
-            audioClip = (Clip) AudioSystem.getLine(info);
-            audioClip.open(audioStream);
-            audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+        musicHandler.set_changeMusic("res/music/UTheme.mp3");
+        musicHandler.play();
+        musicHandler.setLoop(true);
+        musicHandler.setVolume(0.25);
 
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
     }
 
     public void reStart(){
@@ -210,6 +204,10 @@ public class Game implements Runnable {
 
     public MouseManager getMouseManager(){
         return mouseManager;
+    }
+
+    MusicHandler getMusicHandler() {
+        return musicHandler;
     }
 
     public GameCamera getGameCamera(){
