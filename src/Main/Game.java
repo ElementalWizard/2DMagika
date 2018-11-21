@@ -53,13 +53,6 @@ public class Game implements Runnable {
     //Handler
     private Handler handler;
 
-    //Res.music
-    private File audioFile;
-    private AudioInputStream audioStream;
-    private AudioFormat format;
-    private DataLine.Info info;
-    private Clip audioClip;
-
     private BufferedImage loading;
 
     public Game(String title, int width, int height){
